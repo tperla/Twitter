@@ -54,7 +54,8 @@ public class Solution
     static void PrintTriangle()
     {
         int rows;
-        if (width % 2 == 0 || width > 2 * height)
+        //Compatibility check and edge cases - if there are no odd values ​​between the width and 1 and if the width is 1 and the height is too large.
+        if (width % 2 == 0 || width >= 2 * height || (width == 3 || width == 1) && height > 2)
             Console.WriteLine("The triangle cannot be printed.");
         else
         {
@@ -83,12 +84,15 @@ public class Solution
                     Console.WriteLine();
                 }
             }
-            //Print the last line
-            for (int i = 0; i < width; i++)
+            if (height != 1) 
             {
-                Console.Write("*");
+                //Print the last line
+                for (int i = 0; i < width; i++)
+                {
+                    Console.Write("*");
+                }
+                Console.WriteLine();
             }
-            Console.WriteLine();
         }
     }
     static void Main(string[] args)
