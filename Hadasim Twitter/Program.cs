@@ -1,6 +1,6 @@
-﻿using System;
-public class Solution
+﻿public class Solution
 {
+    const int MAX_DIFFERENCE = 5; // The maximum possible difference between the lengths of the sides of a rectangle
     public static int height, width;
     static void DisplayMenu()// Method to display the main menu
     {
@@ -15,7 +15,7 @@ public class Solution
         Console.WriteLine("Please enter height and width details of the building");
         height = int.Parse(Console.ReadLine());
         width = int.Parse(Console.ReadLine());
-        if (Math.Abs(height - width) > 5 || height == width)
+        if (Math.Abs(height - width) > MAX_DIFFERENCE || height == width)
             Console.WriteLine("The area of the rectangle is: " + height * width);
         else
             Console.WriteLine("The perimeter of the rectangle is:" + 2 * (height + width));
@@ -44,7 +44,7 @@ public class Solution
                 break;
         }
     }
-    // Method to calculate perimeter of the triangle
+    // Method to calculate perimeter of the triangle using the Pythagorean theorem
     static void CalculatePerimeter()
     {
         double edge = Math.Sqrt(Math.Pow(height, 2) + Math.Pow(width/2, 2));
@@ -53,51 +53,44 @@ public class Solution
     // Method to print the triangle
     static void PrintTriangle()
     {
-        int rows;
         //Compatibility check and edge cases - if there are no odd values ​​between the width and 1 and if the width is 1 and the height is too large.
         if (width % 2 == 0 || width >= 2 * height || (width == 3 || width == 1) && height > 2)
             Console.WriteLine("The triangle cannot be printed.");
         else
         {
             //Print the first line
-            for (int i = 0; i < (width - 1) / 2; i++)
-            {
-                Console.Write(" ");
-            }
-            Console.WriteLine("*");
+            string FirstLine = new string(' ', (width - 1) / 2) + "*";
+            Console.WriteLine(FirstLine);
             //Printing the middle part of the tower
-            for (int i = width / 2 - 1; i > 0; i--)
+            if (height != 1) //A test that needs more than one line
             {
-                //How many rows of 3 stars are needed according to the remainder of the division
-                if (i== width / 2 - 1) { rows = height-2- (width / 2 - 2)*((height - 2) / (width / 2 - 1));}
-                else { rows = (height - 2) / (width / 2 - 1); }
-                for (int j = 0; j < rows; j++)
-                { 
-                    for (int k = 0; k < (width - (width - 2 * i)) / 2; k++)//Calculate how many spaces are needed
-                    {
-                        Console.Write(" ");
-                    }
-                    for (int k = 0; k < (width - 2 * i); k++)//Calculation of how many stars are needed
-                    {
-                        Console.Write("*");
-                    }
-                    Console.WriteLine();
-                }
-            }
-            if (height != 1) 
-            {
-                //Print the last line
-                for (int i = 0; i < width; i++)
+                //Setting values ​​for calculating the middle of the tower print
+                int oddAmount = (width - 2) / 2;
+                int rowsPerSet = (height - 2) / oddAmount;
+                int remainingRows = (height - 2) % oddAmount;
+                // Print additional odd rows if necessary
+                for (int i = 0; i < remainingRows; i++)
                 {
-                    Console.Write("*");
+                    Console.WriteLine(new string(' ', (width - 2) / 2) + "***");
                 }
-                Console.WriteLine();
+                // Print the main body of the triangle
+                for (int i = 1; i < oddAmount + 1; i++)
+                {
+                    for (int j = 0; j < rowsPerSet; j++)
+                    {
+                        Console.Write(new string(' ', (width - (2 * i + 1)) / 2));
+                        Console.WriteLine(new string('*', 2 * i + 1));
+                    }
+                }
+                //Print the last line
+                string lastLine = new string('*', width);
+                Console.WriteLine(lastLine);
             }
         }
     }
     static void Main(string[] args)
     {
-        while (true)
+        while (true) //repeatedly shows the user the menu
         {
             DisplayMenu();
             Console.Write("Please enter your choice: ");
